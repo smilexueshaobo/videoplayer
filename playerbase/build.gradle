@@ -1,0 +1,70 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            //目前手机主流cpu架构是armeabi-v7a，所以通常情况下只考虑armeabi-v7a(除非特殊情况，比如TBS只有armeabi so库)
+            // https://zhuanlan.zhihu.com/p/26833002
+            // 1,如果同时保留 armeabi 和 armeabi-v7a 两个文件夹，则必须保证这两个文件夹中 .so 数量一致
+            // 2,如果只存在armeabi-v7a，则对只提供 armeabi 版本的第三方 .so，原样复制一份到 armeabi-v7a 文件夹
+            abiFilters 'armeabi-v7a'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    implementation files('libs\\logtools.jar')
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    implementation "tv.danmaku.ijk.media:ijkplayer-java:0.8.8"
+    implementation "com.kk.taurus.playerbase:playerbase:3.4.2"
+
+    implementation "com.google.android.exoplayer:exoplayer-core:2.13.2"
+    implementation "com.google.android.exoplayer:exoplayer-dash:2.13.2"
+    implementation "com.google.android.exoplayer:exoplayer-hls:2.13.2"
+    implementation "com.google.android.exoplayer:exoplayer-smoothstreaming:2.13.2"
+    implementation "com.kk.taurus.playerbase:playerbase:3.4.2"
+}
+
+project.ext {
+    lib = [
+            //module versions
+            ijksdkVersion = '0.8.8',
+            exoplayersdkVersion = '2.13.2',
+            appcompatVersion = '1.2.0',
+
+            playerbaseIjkVersion = '342_088_012',
+            playerbaseExoVersion = '342_2132_019',
+            playerbaseVersion = '3.4.2'
+    ]
+
+}
