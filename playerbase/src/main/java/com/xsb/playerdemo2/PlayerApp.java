@@ -1,6 +1,7 @@
 package com.xsb.playerdemo2;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.kk.taurus.playerbase.config.PlayerConfig;
 import com.kk.taurus.playerbase.config.PlayerLibrary;
@@ -12,23 +13,11 @@ import com.xsb.playerdemo2.ijkplayer.IjkPlayer;
  * Created by Taurus on 2018/4/15.
  */
 
-public class App extends Application {
-
+public class PlayerApp{
     public static final int PLAN_ID_IJK = 1;
     public static final int PLAN_ID_EXO = 2;
 
-    private static App instance;
-
-    public static boolean ignoreMobile;
-
-    public static App get(){
-        return instance;
-    }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
+    public static void initPlayer(Context context){
         PlayerConfig.addDecoderPlan(new DecoderPlan(PLAN_ID_IJK, IjkPlayer.class.getName(), "IjkPlayer"));
         PlayerConfig.addDecoderPlan(new DecoderPlan(PLAN_ID_EXO, ExoMediaPlayer.class.getName(), "ExoPlayer"));
         PlayerConfig.setDefaultPlanId(PLAN_ID_IJK);
@@ -42,7 +31,6 @@ public class App extends Application {
                 new PlayRecordManager.RecordConfig.Builder()
                         .setMaxRecordCount(100).build());
 
-        PlayerLibrary.init(this);
+        PlayerLibrary.init(context);
     }
-
 }
